@@ -27,8 +27,8 @@ function main() {
     let counter = 0;
     for (let match = re.exec(input); match; match = re.exec(input)) {
         const outFileName = `${counter}.${match[1]}`;
-        const outputDir = `${out ? out.name : __dirname}/${outFileName}`;
-        fs.writeFileSync(outputDir, match[2]);
+        const outputPath = `${out ? out.name : __dirname}/${outFileName}`;
+        fs.writeFileSync(outputPath, match[2]);
         console.log(`created ${counter}.${match[1]}`);
         counter++;
     }
