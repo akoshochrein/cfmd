@@ -14,7 +14,7 @@ rl.on("line", (line: string) => {
 })
 
 rl.on('close', () => {
-    const re = /^\`\`\`(ts)\n(.*?)\n\`\`\`\n$/gims;
+    const re = /^\`\`\`(ts|py)\n(.*?)\n\`\`\`\n$/gims;
     let counter = 0;
     for (let match = re.exec(input); match; match = re.exec(input)) {
         fs.writeFileSync(
