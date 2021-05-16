@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as commandLineArgs from 'command-line-args';
+import { generate } from './generator'
 
-const SUPPORTED_LANGUAGES = 'ts|py';
 
 const options = commandLineArgs([
     { name: 'file', alias: 'f', type: file => ({ name: file, exists: fs.existsSync(file)}), defaultOption: true},
@@ -22,16 +22,10 @@ function main() {
         process.exit(1);
     }
 
-    const input = fs.readFileSync(file.name).toString();
-    const re = new RegExp(`^\`\`\`(${SUPPORTED_LANGUAGES})\n(.*?)\n\`\`\`\n$`, 'gims');
-    let counter = 0;
-    for (let match = re.exec(input); match; match = re.exec(input)) {
-        const outFileName = `${counter}.${match[1]}`;
-        const outputPath = `${out ? out.name : __dirname}/${outFileName}`;
-        fs.writeFileSync(outputPath, match[2]);
-        console.log(`created ${counter}.${match[1]}`);
-        counter++;
-    }
+    generate(
+        fs.readFileSync(file.name).toString(),
+        out ? out.name : __dirname
+    );
 }
 
 main();
