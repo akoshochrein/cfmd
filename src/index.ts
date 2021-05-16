@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
 
+const SUPPORTED_LANGUAGES = 'ts|py';
+
 let input = '';
 
 const rl = readline.createInterface({
@@ -14,7 +16,7 @@ rl.on("line", (line: string) => {
 })
 
 rl.on('close', () => {
-    const re = /^\`\`\`(ts|py)\n(.*?)\n\`\`\`\n$/gims;
+    const re = new RegExp(`^\`\`\`(${SUPPORTED_LANGUAGES})\n(.*?)\n\`\`\`\n$`, 'gims');
     let counter = 0;
     for (let match = re.exec(input); match; match = re.exec(input)) {
         fs.writeFileSync(
